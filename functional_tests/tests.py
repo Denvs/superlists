@@ -1,15 +1,16 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
+        self.browser.refresh() # to get rid of WinError 10054 - all the same!?
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
@@ -61,12 +62,6 @@ class NewVisitorTest(LiveServerTestCase):
         ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc#
         self.browser.quit()
-
-        # My own lines to prevent WinError 10054 "Удаленный хост
-        # принудительно разорвал существующее подключение"
-        #import time
-        #time.sleep(10)
-
         self.browser = webdriver.Firefox()
 
         # Francis visits the home page. There is no sign of Edith's list
