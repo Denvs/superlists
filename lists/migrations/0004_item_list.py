@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='item',
             name='list',
-            field=models.ForeignKey(to='lists.List', default=None),
+            field=models.ForeignKey(to='lists.List', default=None, null=True, blank=True),
         ),
     ]
